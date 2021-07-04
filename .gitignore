@@ -129,6 +129,10 @@ dmypy.json
 .pyre/
 
 # datasets
-data/
+data/nuskin/
+data/biotac/
+data/preprocessed/*.npz
+data/coordinates.jpg
+data/README
 data.zip
 preprocessed_data.zip

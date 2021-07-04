@@ -10,7 +10,10 @@ if [ $# -eq 0 ]; then
 else
     if [ "$1" == "preprocessed" ]; then
         echo "Preprocessed data is being downloaded ..."
-        ./gdrivedl.py https://drive.google.com/file/d/1lbTgMjH3RE19ROPc8Cb8jCyzdYtcQEnj/view?usp=sharing
+        ./gdrivedl.py https://drive.google.com/file/d/1Ib54Es_T3tvrSPb-shG5OI_Lk5z_4T8A/view?usp=sharing
+        echo ""
+        echo "unzipping to data/preprocessed folder"
+        unzip -qq preprocessed_data.zip -d data/preprocessed/
     else
         echo "Unknown argument"
     fi
