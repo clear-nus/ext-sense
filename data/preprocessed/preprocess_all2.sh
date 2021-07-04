@@ -14,8 +14,8 @@ preprocess_biotac () {
 
 
 # preprocess_nuskin nuskin_tool_20 $1
-preprocess_nuskin nuskin_tool_30 $1
-# preprocess_nuskin nuskin_tool_50 $1
+# preprocess_nuskin nuskin_tool_30 $1
+preprocess_nuskin nuskin_tool_50 $1
 # preprocess_nuskin nuskin_handover_rod $1
 # preprocess_nuskin nuskin_handover_box $1
 # preprocess_nuskin nuskin_handover_plate $1

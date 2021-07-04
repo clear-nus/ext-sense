@@ -131,8 +131,19 @@ dmypy.json
 # datasets
 data/nuskin/
 data/biotac/
-data/preprocessed/*.npz
 data/coordinates.jpg
 data/README
 data.zip
 preprocessed_data.zip
+features_preprocessed.zip
+kernel_preprocessed.zip
+
+# preprocessed data
+data/preprocessed/*.npz
+data/preprocessed/README
+data/preprocessed/preprocessed.zip
+
+# kernel data
+data/convoluted/*.npz
+data/convoluted/raw_spikes/
+data/convoluted/kernel_preprocessed.zip

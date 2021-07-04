@@ -1,0 +1,5 @@
+These files are generated using preprocess.py
+
+All data contains input and labels, please look at numpy docs to load .npz files.
+
+https://numpy.org/doc/stable/reference/generated/numpy.load.html
