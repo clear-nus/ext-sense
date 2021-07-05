@@ -23,7 +23,7 @@ pip install -r requirements.txt
 The datasets are hosted on Google Drive. 
 Please download [raw](https://drive.google.com/file/d/update_raw/view?usp=sharing) (~666 MB) and/or [preprocessed](https://drive.google.com/file/d/update/view?usp=sharing) (~684 MB) data with the direct link.
 
-We also provide script for headless fetching of the required data. For quick start, please download preprocessed data:
+We also provide scripts for headless fetching of the required data. For quick start, please download preprocessed data:
 
 ``` bash
 bash fetch_data.sh preprocess
@@ -111,7 +111,7 @@ booktitle={IEEE International Conference on Intelligent Robots and Systems (IROS
 
 ### Troubleshooting
 
-If bash scripts with extension ```.sh``` won't execute, please change it to be executable:
+If bash script with extension ```.sh``` won't execute, please change it to be executable:
 ``` bash
 chmod +x your_bash_script.sh
 ```
