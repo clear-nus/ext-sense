@@ -99,10 +99,19 @@ For the full list of possible configurations, see the `evaluate` method of [`eva
 
 # BibTeX
 
+To cite this work, please use:
+
 ```
 @inproceedings{taunyazov2021extended,
 title={Extended Tactile Perception: Vibration Sensing through Tools and Grasped Objects},
 author={Tasbolat Taunyazov and Luar Shui Song and Eugene Lim and Hian Hian See and David Lee and Benjamin C. K. Tee and Harold Soh},
 year={2021},
 booktitle={IEEE International Conference on Intelligent Robots and Systems (IROS)}}
+```
+
+### Troubleshooting
+
+If bash scripts with extension ```.sh``` won't execute, please change it to be executable:
+``` bash
+chmod +x your_bash_script.sh
 ```
