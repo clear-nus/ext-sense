@@ -23,25 +23,26 @@ pip install -r requirements.txt
 
 We are working on to update the datasets!
 
-#The datasets are hosted on Google Drive. 
-#Please download [raw]() (~666 MB) and/or [preprocessed]() (~684 MB) data with the direct link.
+<!---
+The datasets are hosted on Google Drive. 
+Please download [raw]() (~666 MB) and/or [preprocessed]() (~684 MB) data with the direct link.
 
-# We also provide scripts for headless fetching of the required data. For quick start, please download preprocessed data:
+We also provide scripts for headless fetching of the required data. For quick start, please download preprocessed data:
 
-#``` bash
-#bash fetch_data.sh preprocess
-# ```
+``` bash
+bash fetch_data.sh preprocess
+```
 
-#The downloaded data will be unzipped under ```data/preprocessed/``` folder.
+The downloaded data will be unzipped under ```data/preprocessed/``` folder.
 
-#If you want to fetch unprocessed raw data, pease run:
+If you want to fetch unprocessed raw data, pease run:
 
-#``` bash
-#bash fetch_data.sh
-#```
+``` bash
+bash fetch_data.sh
+```
 
-#The downloaded data will be unzipped under ```data/``` folder. Please refere to ```data/README``` for details of raw data.
-
+The downloaded data will be unzipped under ```data/``` folder. Please refere to ```data/README``` for details of raw data.
+--->
 # Preprocessing
 
 *Skip this part if preprocessed data is downloaded*
