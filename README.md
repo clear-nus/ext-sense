@@ -1,3 +1,4 @@
+
 # Extended Tactile Perception: Vibration Sensing through Tools and Grasped Objects
 
 This repository contains the code for our paper [Extended Tactile Perception: Vibration Sensing through Tools and Grasped Objects](https://arxiv.org/abs/2106.00489) (IROS-21). The dataset used in the paper can be found here.
@@ -20,24 +21,26 @@ pip install -r requirements.txt
 
 # Datasets
 
-The datasets are hosted on Google Drive. 
-Please download [raw](https://drive.google.com/file/d/update_raw/view?usp=sharing) (~666 MB) and/or [preprocessed](https://drive.google.com/file/d/update/view?usp=sharing) (~684 MB) data with the direct link.
+We are working on to update the datasets!
 
-We also provide scripts for headless fetching of the required data. For quick start, please download preprocessed data:
+#The datasets are hosted on Google Drive. 
+#Please download [raw]() (~666 MB) and/or [preprocessed]() (~684 MB) data with the direct link.
 
-``` bash
-bash fetch_data.sh preprocess
-```
+# We also provide scripts for headless fetching of the required data. For quick start, please download preprocessed data:
 
-The downloaded data will be unzipped under ```data/preprocessed/``` folder.
+#``` bash
+#bash fetch_data.sh preprocess
+# ```
 
-If you want to fetch unprocessed raw data, pease run:
+#The downloaded data will be unzipped under ```data/preprocessed/``` folder.
 
-``` bash
-bash fetch_data.sh
-```
+#If you want to fetch unprocessed raw data, pease run:
 
-The downloaded data will be unzipped under ```data/``` folder. Please refere to ```data/README``` for details of raw data.
+#``` bash
+#bash fetch_data.sh
+#```
+
+#The downloaded data will be unzipped under ```data/``` folder. Please refere to ```data/README``` for details of raw data.
 
 # Preprocessing
 
