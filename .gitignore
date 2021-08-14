@@ -128,22 +128,35 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+
 # datasets
-data/nuskin/
-data/biotac/
-data/coordinates.jpg
-data/README
+data/
+!data/convoluted/utils/*
+!data/convoluted/convolute_all.sh
+!data/convoluted/convolute.py
+
+!data/preprocessed/preprocess.sh
+!data/preprocessed/preprocess.py
+
+# # datasets
+# data/nuskin/
+# data/biotac/
+# data/coordinates.jpg
+# data/README
 data.zip
 preprocessed_data.zip
 features_preprocessed.zip
 kernel_preprocessed.zip
 
-# preprocessed data
-data/preprocessed/*.npz
-data/preprocessed/README
-data/preprocessed/preprocessed.zip
+# datasets old
+data_v1/
 
-# kernel data
-data/convoluted/*.npz
-data/convoluted/raw_spikes/
-data/convoluted/kernel_preprocessed.zip
+# # preprocessed data
+# data/preprocessed/*.npz
+# data/preprocessed/README
+# data/preprocessed/preprocessed.zip
+
+# # kernel data
+# data/convoluted/*.npz
+# data/convoluted/raw_spikes/
+# data/convoluted/kernel_preprocessed.zip
