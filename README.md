@@ -126,4 +126,4 @@ chmod +x your_bash_script.sh
 
 ### Contact us
 
-Feel free to contact <a href="mailto:tasbolat@comp.nus.edu.sg">Tasbolat Taunyazov</a> or <a href="mailto:harold@comp.nus.edu.sg">Harold Soh</a> for any question related to the our work or open github issue. You can also find out what our research is working on our website [CLeAR website](https://clear-nus.github.io/).
+Feel free to contact <a href="mailto:tasbolat@comp.nus.edu.sg">Tasbolat Taunyazov</a> or <a href="mailto:harold@comp.nus.edu.sg">Harold Soh</a> for any question related to the our work or open github issue. Please visit our website for more information: [CLeAR website](https://clear-nus.github.io/).
