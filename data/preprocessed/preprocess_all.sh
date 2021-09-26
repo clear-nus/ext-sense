@@ -1,3 +1,4 @@
+#!/bin/bash
 preprocess_nuskin () {
     for freq in 5 50 100 250 500 1000 2000 3000 4000
     do
@@ -12,20 +13,19 @@ preprocess_biotac () {
     done
 }
 
-
 # preprocess_nuskin nuskin_tool_20 $1
-preprocess_nuskin nuskin_tool_30 $1
+# preprocess_nuskin nuskin_tool_30 $1
 # preprocess_nuskin nuskin_tool_50 $1
-# preprocess_nuskin nuskin_handover_rod $1
-# preprocess_nuskin nuskin_handover_box $1
-# preprocess_nuskin nuskin_handover_plate $1
-# preprocess_nuskin nuskin_food_apple $1
-# preprocess_nuskin nuskin_food_banana $1
-# preprocess_nuskin nuskin_food_empty $1
-# preprocess_nuskin nuskin_food_pepper $1
-# preprocess_nuskin nuskin_food_tofu $1
-# preprocess_nuskin nuskin_food_water $1
-# preprocess_nuskin nuskin_food_watermelon $1
+# preprocess_nuskin nuskin_handover_rod $1 ../nuskin/handover
+preprocess_nuskin nuskin_handover_box $1 ../nuskin/handover
+# preprocess_nuskin nuskin_handover_plate $1 ../nuskin/handover
+# preprocess_nuskin nuskin_food_apple $1 ../nuskin/food
+# preprocess_nuskin nuskin_food_banana $1 ../nuskin/food
+# preprocess_nuskin nuskin_food_empty $1 ../nuskin/food
+# preprocess_nuskin nuskin_food_pepper $1 ../nuskin/food
+# preprocess_nuskin nuskin_food_tofu $1 ../nuskin/food
+# preprocess_nuskin nuskin_food_water $1 ../nuskin/food
+# preprocess_nuskin nuskin_food_watermelon $1 ../nuskin/food
 
 # preprocess_biotac biotac_tool_20 $1
 # preprocess_biotac biotac_tool_30 $1

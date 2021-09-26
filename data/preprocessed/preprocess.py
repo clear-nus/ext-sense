@@ -81,29 +81,72 @@ def _preprocess_nuskin_tool(tool_length, data_directory, time_past=0.05, time_fu
     return signals, labels
 
 
-def _preprocess_nuskin_handover(item, data_directory, time_past=0.05, time_future=0.25, time_interval=0.005, frequency=4000):
+# def _preprocess_nuskin_handover(item, data_directory, time_past=0.05, time_future=0.25, time_interval=0.005, frequency=4000):
+    
+#     signals = None
+#     labels = None
+    
+#     df_essentials = pd.read_csv(Path(data_directory)/f'nuskin/handover/nt_essentials.csv')
+#     df_essentials = df_essentials[df_essentials.obj == item]
+
+#     print(f'Preprocessing  nuskin handover {item} for {frequency} Hz ... ')
+
+#     for _, row in tqdm.tqdm( df_essentials.iterrows(), total=df_essentials.shape[0]  ):
+                
+#         df_raw = _read_nuskin_raw(Path(data_directory)/f'nuskin/handover/{row.fname}.tact')
+#         tap_time = row.tapped_time
+        
+#         signals_temp = _bin_nuskin_signal(np.array([tap_time]), df_raw, time_past, time_future, time_interval, frequency)
+#         labels_temp = row[['isPos', 'label_x_thumb', 'label_y_thumb', 'label_z_thumb', 'label_x_thumb_d', 'label_y_thumb_d', 'label_z_thumb_d', 'label_x_index', 'label_y_index', 'label_z_index', 'label_x_index_d', 'label_y_index_d', 'label_z_index_d']].values.astype('float')
+        
+#         signals = np.vstack((signals, signals_temp)) if signals is not None else signals_temp
+#         labels = np.vstack((labels, labels_temp)) if labels is not None else labels_temp
+    
+#     return signals, labels
+
+def _preprocess_nuskin_handover(item, data_directory, time_past=0.0, time_future=0.5, time_interval=0.005, frequency=4000):
     
     signals = None
     labels = None
     
-    df_essentials = pd.read_csv(Path(data_directory)/f'nuskin/handover/nt_essentials.csv')
+    df_essentials = pd.read_csv(Path(data_directory)/f'nt_essentials.csv')
     df_essentials = df_essentials[df_essentials.obj == item]
 
     print(f'Preprocessing  nuskin handover {item} for {frequency} Hz ... ')
 
     for _, row in tqdm.tqdm( df_essentials.iterrows(), total=df_essentials.shape[0]  ):
                 
-        df_raw = _read_nuskin_raw(Path(data_directory)/f'nuskin/handover/{row.fname}.tact')
+        df_raw = _read_nuskin_raw(Path(data_directory)/f'{row.fname}.tact')
         tap_time = row.tapped_time
         
         signals_temp = _bin_nuskin_signal(np.array([tap_time]), df_raw, time_past, time_future, time_interval, frequency)
-        labels_temp = row[['isPos', 'label_x_thumb', 'label_y_thumb', 'label_z_thumb', 'label_x_thumb_d', 'label_y_thumb_d', 'label_z_thumb_d', 'label_x_index', 'label_y_index', 'label_z_index', 'label_x_index_d', 'label_y_index_d', 'label_z_index_d']].values.astype('float')
+        labels_temp = row[['isPos', 'label_x_thumb', 'label_y_thumb', 'label_z_thumb', 'label_x_index', 'label_y_index', 'label_z_index']].values.astype('float')
         
         signals = np.vstack((signals, signals_temp)) if signals is not None else signals_temp
         labels = np.vstack((labels, labels_temp)) if labels is not None else labels_temp
     
     return signals, labels
 
+
+# def _preprocess_nuskin_food(item, data_directory, time_past=0.0, time_future=6.0, time_interval=0.05, frequency=4000):
+    
+#     import glob
+    
+#     signals = None
+#     labels = None
+
+#     print(f'Preprocessing  nuskin food {item} for {frequency} Hz ... ')
+    
+#     for filename in tqdm.tqdm( Path(Path(data_directory)/f'nuskin/food/food_poking_batch1/').glob(f'{item}_zero_*[0-9].tact') ):
+        
+#         df_raw = _read_nuskin_raw(filename)
+#         start_time = df_raw['t'][0]# + 2
+#         signal_temp = _bin_nuskin_signal(np.array([start_time]), df_raw, time_past, time_future, time_interval, frequency)
+#         signals = np.vstack((signals, signal_temp)) if signals is not None else signal_temp
+    
+#     labels = np.ones(signals.shape[0])
+    
+#     return signals, labels
 
 def _preprocess_nuskin_food(item, data_directory, time_past=0.0, time_future=6.0, time_interval=0.05, frequency=4000):
     
@@ -113,11 +156,14 @@ def _preprocess_nuskin_food(item, data_directory, time_past=0.0, time_future=6.0
     labels = None
 
     print(f'Preprocessing  nuskin food {item} for {frequency} Hz ... ')
-    
-    for filename in tqdm.tqdm( Path(Path(data_directory)/f'nuskin/food/food_poking_batch1/').glob(f'{item}_zero_*[0-9].tact') ):
+
+    df_food = pd.read_csv(Path(data_directory)/'nt_essentials.csv', header=None)
+    df_food = df_food[df_food[2] == item]
+
+    for k, filename in tqdm.tqdm( df_food[0].iteritems(), total=df_food.shape[0] ):
         
-        df_raw = _read_nuskin_raw(filename)
-        start_time = df_raw['t'][0] + 2
+        df_raw = _read_nuskin_raw(Path('../..')/filename)
+        start_time = df_raw['t'][0]# + 2
         signal_temp = _bin_nuskin_signal(np.array([start_time]), df_raw, time_past, time_future, time_interval, frequency)
         signals = np.vstack((signals, signal_temp)) if signals is not None else signal_temp
     
@@ -295,8 +341,9 @@ def _downsample_biotac_signal(signals, frequency=2200):
 
 
 if __name__ == '__main__':
-    
+
     import sys
-    
+
     if len(sys.argv) == 4:
+        
         preprocess(sys.argv[1], sys.argv[2], int(sys.argv[3]))

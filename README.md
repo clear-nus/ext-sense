@@ -20,12 +20,10 @@ pip install -r requirements.txt
 ```
 
 # Datasets
+*Note: We have recollected the data for handover and food identification tasks due to the small time artifact in the first version of the data. However, new data has shown similar result as first version and all conclusions given in the paper are held.*
 
-We are working on to update the datasets!
-
-<!---
-The datasets are hosted on Google Drive. 
-Please download [raw]() (~666 MB) and/or [preprocessed]() (~684 MB) data with the direct link.
+ These datasets are hosted on Google Drive. 
+Please download [raw](https://drive.google.com/file/d/1aXEXLYn-SEuIL7CvflyLTBr_YffzF15U/view?usp=sharing) (~946 MB) and/or [preprocessed](https://drive.google.com/file/d/12W2Cb2kW5Sa8x6EvwbRIx8f42cVyKjN4/view?usp=sharing) (~696 MB) data with the direct link.
 
 We also provide scripts for headless fetching of the required data. For quick start, please download preprocessed data:
 
@@ -41,8 +39,8 @@ If you want to fetch unprocessed raw data, pease run:
 bash fetch_data.sh
 ```
 
-The downloaded data will be unzipped under ```data/``` folder. Please refere to ```data/README``` for details of raw data.
---->
+The downloaded data will be unzipped under ```data/``` folder. Please refer to ```data/README``` for details of raw data.
+
 # Preprocessing
 
 *Skip this part if preprocessed data is downloaded*
@@ -69,7 +67,7 @@ bash convolute_all.sh
 
 # Run models
 
-To run the models, please run:
+To run the models for all features except EST, please run:
 
 ``` bash
 python evaluate.py {task_type}_{sensor_type}_{features}_{method} {frequency} | tee results.log
@@ -101,6 +99,12 @@ The `method` can be one of the following:
 
 For the full list of possible configurations, see the `evaluate` method of [`evaluate.py`](https://github.com/clear-nus/ext-sense/blob/main/evaluate.py).
 
+For EST features, please run:
+
+``` bash
+python evaluate_kernel.py kernel_classification_{task_type}_{frequency}_all_{method} | tee results.log
+```
+
 # BibTeX
 
 To cite this work, please use:
@@ -119,3 +123,7 @@ If bash script with extension ```.sh``` won't execute, please change it to be ex
 ``` bash
 chmod +x your_bash_script.sh
 ```
+
+### Contact us
+
+Feel free to contact <a href="mailto:tasbolat@comp.nus.edu.sg">Tasbolat Taunyazov</a> or <a href="mailto:harold@comp.nus.edu.sg">Harold Soh</a></p> for any question related to the our work or open github issue. You can also find out what our research is working on our website [CLeAR website](https://clear-nus.github.io/)

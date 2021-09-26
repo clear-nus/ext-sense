@@ -3,6 +3,8 @@ from functools import partial
 from sklearn.model_selection import train_test_split, GridSearchCV, ShuffleSplit
 from sklearn.neural_network import MLPRegressor, MLPClassifier
 from sklearn.svm import SVR, SVC
+from sklearn.metrics import confusion_matrix
+
 
 from skorch import NeuralNetRegressor, NeuralNetClassifier
 
@@ -70,7 +72,7 @@ class RNNModule(nn.Module):
 #                                                    
 
 
-def _create_evaluator(estimator, param_grid, scoring, cv=4, N=5, callback=None):
+def _create_evaluator(estimator, param_grid, scoring, cv=4, N=5, callback=None, cm_name=None):
     
     gs_estimator = GridSearchCV(estimator=estimator, param_grid=param_grid, scoring=scoring, cv=cv, n_jobs=3, refit=True)
     
@@ -78,6 +80,7 @@ def _create_evaluator(estimator, param_grid, scoring, cv=4, N=5, callback=None):
         
         test_losses = np.zeros(N)
         
+        cms = []
         for n in range(N):
             
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=n)
@@ -87,6 +90,12 @@ def _create_evaluator(estimator, param_grid, scoring, cv=4, N=5, callback=None):
             
             if callback is not None: callback(gs_estimator, X_test, y_test)
             if verbose: print('Iteration {:d} | Test Loss = {:0.4f}'.format(n, test_loss))
+
+            if cm_name is not None:
+                cms.append( confusion_matrix(y_test, gs_estimator.predict(X_test)) )
+
+        import pickle
+        pickle.dump(cms, open(f'{cm_name}.pkl' ,'wb'))
 
         return np.mean(test_losses), np.std(test_losses)
 
@@ -270,11 +279,14 @@ def _evaluate_classifier_svm(task, tool_type, frequency, signal_type, kernel):
     X, y = _load_classifier_data(task, tool_type, frequency=frequency, transformation='default', signal_type=signal_type)
     
     param_grid = {
-        'C': [1, 3, 10, 30, 100]
+        'C': [0.1, 1, 3, 10, 30, 100, 200, 500]
     }
+
+    kernel_name = 'svmlinear' if kernel == 'linear' else 'svmrbf'
+    cm_name = f'results/food_nuskin_kernel_{kernel_name}_{frequency}'
     
     estimator = SVC(kernel=kernel, max_iter=5000)
-    evaluate = _create_evaluator(estimator, param_grid, 'accuracy', N=20)
+    evaluate = _create_evaluator(estimator, param_grid, 'accuracy', N=20, cm_name=cm_name)
     
     return evaluate(X, y)
 
@@ -287,9 +299,11 @@ def _evaluate_classifier_mlp(task, tool_type, frequency, signal_type):
         'learning_rate_init': [0.01, 0.03, 0.1, 0.3],
         'alpha': [0.0001, 0.001]
     }
+
+    cm_name = f'results/food_nuskin_kernel_mlp_{frequency}'
     
     estimator = MLPClassifier(hidden_layer_sizes=(16, 8), max_iter=2000, random_state=100)
-    evaluate = _create_evaluator(estimator, param_grid, 'accuracy', N=20)
+    evaluate = _create_evaluator(estimator, param_grid, 'accuracy', N=20, cm_name=cm_name)
     
     return evaluate(X, y)
 
@@ -310,11 +324,14 @@ def _evaluate_classifier_rnn(task, tool_type, frequency, signal_type, device):
                                    train_split=False,
                                    device=device,
                                    verbose=0)
+
+    cm_name = f'results/food_nuskin_kernel_rnn_{frequency}'
     
     evaluate = _create_evaluator(estimator,
                                  param_grid,
                                  'accuracy',
-                                 ShuffleSplit(n_splits=1, test_size=.25))
+                                 ShuffleSplit(n_splits=1, test_size=.25),
+                                 cm_name=cm_name)
     
     return evaluate(X, y)
 

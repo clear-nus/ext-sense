@@ -30,7 +30,7 @@ def downsample_raw_spikes(df, frequency, max_frequency=4000):
     if frequency == max_frequency:
         return df
 
-    print(f'Downsampling at {frequency} ...')
+    # print(f'Downsampling at {frequency} ...')
     
     last_spiked = {}
     for i in range(1, 81):
@@ -53,6 +53,9 @@ def prepare_rod_raw_spikes(data_dir, save_dir, tool_type, frequency=4000, num_sp
     info = []
     count = 0
     trials=10
+
+    print(f'Downsampling at {frequency} ...')
+
     for trial in range(1, trials+1) :
         fname = f'trial{trial}_{tool_type}'
         df = read_spikes(data_dir / f'{fname}.tact')
@@ -73,7 +76,7 @@ def prepare_rod_raw_spikes(data_dir, save_dir, tool_type, frequency=4000, num_sp
     save_split_info(save_dir, all_info, num_splits)
     
     
-def prepare_handover_raw_spikes(data_dir, save_dir, tool_type, frequency=4000, num_splits=4, feature_t=250, delay_t=50, label_map=None):
+def prepare_handover_raw_spikes(data_dir, save_dir, tool_type, frequency=4000, num_splits=4, feature_t=5000, delay_t=0, label_map=None):
     
     df_estls = pd.read_csv(data_dir / 'nt_essentials.csv')
     df_estls = df_estls.fillna(-1)
@@ -82,10 +85,13 @@ def prepare_handover_raw_spikes(data_dir, save_dir, tool_type, frequency=4000, n
     
     info = []
     count = 0
+
+    print(f'Downsampling at {frequency} ...')
+
     for i, row in df_estls.iterrows():
         fname = row.fname
-        if fname == 'neg_box_35':
-            continue
+        # if fname == 'neg_box_35':
+        #     continue
         df = read_spikes(data_dir / f'{fname}.tact')
         df = downsample_raw_spikes(df, frequency)
         contact_t = row.tapped_time
@@ -97,6 +103,9 @@ def prepare_handover_raw_spikes(data_dir, save_dir, tool_type, frequency=4000, n
                      row.label_x_index, row.label_y_index, row.label_z_index])
         sample_values = sample_df[['taxel', 't', 'isPos']].values
         
+        # if sample_values.shape[0] == 0:
+        #     print(f'BAD SAMPLE at {count}: {fname} {contact_t} {sample_df.shape} {df.shape}')
+        #     print(df.t.iloc[0], df.t.iloc[-1])
         np.save(save_dir / str(count), sample_values)
         count +=1
             
@@ -123,6 +132,9 @@ def prepare_food_raw_spikes(data_dir, save_dir, tool_type, frequency=4000, num_s
     
     info = []
     count = 0
+
+    print(f'Downsampling at {frequency} ...')
+
     for i, row in df_estls.iterrows():
         local_data_dir = Path(data_dir) / row.new_sub_dir
         df = read_spikes(local_data_dir)

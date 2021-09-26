@@ -147,6 +147,8 @@ data.zip
 preprocessed_data.zip
 features_preprocessed.zip
 kernel_preprocessed.zip
+generate_food_nt_essentials.py
+
 
 # datasets old
 data_v1/
@@ -160,3 +162,10 @@ data_v1/
 # data/convoluted/*.npz
 # data/convoluted/raw_spikes/
 # data/convoluted/kernel_preprocessed.zip
+
+some_stuff_related_to_cm.ipynb
+evaluators.json
+generate_confusion_matrix.ipynb
+results/
+run_evaluator.sh
+run_evaluators2.sh

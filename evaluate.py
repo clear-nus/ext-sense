@@ -3,6 +3,7 @@ from functools import partial
 from sklearn.model_selection import train_test_split, GridSearchCV, ShuffleSplit
 from sklearn.neural_network import MLPRegressor, MLPClassifier
 from sklearn.svm import SVR, SVC
+from sklearn.metrics import confusion_matrix
 
 from skorch import NeuralNetRegressor, NeuralNetClassifier
 import skorch
@@ -16,7 +17,7 @@ from pathlib import Path
 torch.manual_seed(100)
 np.random.seed(100)
 
-def evaluate(experiment_name, frequency, device='cuda'):
+def evaluate(experiment_name, frequency, device='cuda:2'):
     
     experiments = {
         
@@ -266,7 +267,7 @@ class RNNModule(nn.Module):
 #                                                    
 
 
-def _create_evaluator(estimator, param_grid, scoring, cv=4, N=5, callback=None):
+def _create_evaluator(estimator, param_grid, scoring, cv=4, N=5, callback=None, cm_name=None):
     
     gs_estimator = GridSearchCV(estimator=estimator, param_grid=param_grid, scoring=scoring, cv=cv, n_jobs=3, refit=True)
     
@@ -274,15 +275,23 @@ def _create_evaluator(estimator, param_grid, scoring, cv=4, N=5, callback=None):
         
         test_losses = np.zeros(N)
         
+        cms = []
         for n in range(N):
             
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=n)
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=n, stratify=y)
             gs_estimator.fit(X_train, y_train)
             test_loss = -gs_estimator.score(X_test, y_test)
             test_losses[n] = test_loss
             
             if callback is not None: callback(gs_estimator, X_test, y_test)
             if verbose: print('Iteration {:02d} | Test Loss = {:0.4f}'.format(n, test_loss))
+
+            if cm_name is not None:
+                cms.append( confusion_matrix(y_test, gs_estimator.predict(X_test)) )
+        
+        if cm_name is not None:
+            import pickle
+            pickle.dump(cms, open(f'{cm_name}.pkl' ,'wb'))
 
         return np.mean(test_losses), np.std(test_losses)
 
@@ -492,6 +501,7 @@ def _evaluate_handover_svm(item, signal_type, perform_fft, kernel, frequency):
 
     X, y = _load_handover(item, signal_type, 'fft' if perform_fft else 'default', frequency)
     
+    # param_grid = { 'C': [0.0001, 0.01, 0.1, 0.5, 0.6, 1, 3, 10, 30, 100, 200, 300, 500, 1000] }
     param_grid = { 'C': [1, 3, 10, 30, 100] }
     
     estimator = SVC(kernel=kernel, max_iter=5000)
@@ -620,10 +630,15 @@ def _evaluate_food_svm(signal_type, perform_fft, kernel, frequency):
 
     X, y = _load_food(signal_type, 'fft' if perform_fft else 'default', frequency)
     
-    param_grid = { 'C': [1, 3, 10, 30, 100] }
+    param_grid = { 'C': [0.1, 1, 3, 10, 30, 100, 200, 300, 500] }
+
+    features = 'fft' if perform_fft else 'baseline'
+    kernel_name = 'svmlinear' if kernel == 'linear' else 'svmrbf'
+    
+    cm_name = f'results/food_{signal_type}_{features}_{kernel_name}_{frequency}'
     
     estimator = SVC(kernel=kernel, max_iter=5000)
-    evaluate = _create_evaluator(estimator, param_grid, 'accuracy', N=20)
+    evaluate = _create_evaluator(estimator, param_grid, 'accuracy', N=20, cm_name=cm_name)
     
     return evaluate(X, y)
 
@@ -636,9 +651,12 @@ def _evaluate_food_mlp(signal_type, perform_fft, frequency):
         'learning_rate_init': [0.01, 0.03, 0.1, 0.3],
         'alpha': [0.0001, 0.001]
     }
+
+    features = 'fft' if perform_fft else 'baseline'
+    cm_name = f'results/food_{signal_type}_{features}_mlp_{frequency}'
     
     estimator = MLPClassifier(hidden_layer_sizes=(16, 8), max_iter=2000, random_state=100)
-    evaluate = _create_evaluator(estimator, param_grid, 'accuracy', N=20)
+    evaluate = _create_evaluator(estimator, param_grid, 'accuracy', N=20, cm_name=cm_name)
     
     return evaluate(X, y)
 
@@ -660,11 +678,14 @@ def _evaluate_food_rnn(signal_type, device, frequency):
                                    train_split=False,
                                    device=device,
                                    verbose=0)
+
+    cm_name = f'results/food_{signal_type}_baseline_rnn_{frequency}'
     
     evaluate = _create_evaluator(estimator,
                                  param_grid,
                                  'accuracy',
-                                 ShuffleSplit(n_splits=1, test_size=.2, random_state=0))
+                                 ShuffleSplit(n_splits=1, test_size=.2, random_state=0),
+                                 cm_name=cm_name)
     
     return evaluate(X, y)
 
