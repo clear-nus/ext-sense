@@ -20,7 +20,7 @@ pip install -r requirements.txt
 ```
 
 # Datasets
-*Note: We have recollected the data for handover and food identification tasks due to the small time artifact in the first version of the data. However, new data has shown similar result as first version and all conclusions given in the paper are held.*
+***Note:*** *We have recollected the data for handover and food identification tasks due to the small time artifact in the first version of the data. However, new data has shown similar result as first version and all conclusions given in the paper are held.*
 
  These datasets are hosted on Google Drive. 
 Please download [raw](https://drive.google.com/file/d/1aXEXLYn-SEuIL7CvflyLTBr_YffzF15U/view?usp=sharing) (~946 MB) and/or [preprocessed](https://drive.google.com/file/d/12W2Cb2kW5Sa8x6EvwbRIx8f42cVyKjN4/view?usp=sharing) (~696 MB) data with the direct link.
@@ -126,4 +126,4 @@ chmod +x your_bash_script.sh
 
 ### Contact us
 
-Feel free to contact <a href="mailto:tasbolat@comp.nus.edu.sg">Tasbolat Taunyazov</a> or <a href="mailto:harold@comp.nus.edu.sg">Harold Soh</a></p> for any question related to the our work or open github issue. You can also find out what our research is working on our website [CLeAR website](https://clear-nus.github.io/)
+Feel free to contact <a href="mailto:tasbolat@comp.nus.edu.sg">Tasbolat Taunyazov</a> or <a href="mailto:harold@comp.nus.edu.sg">Harold Soh</a> for any question related to the our work or open github issue. You can also find out what our research is working on our website [CLeAR website](https://clear-nus.github.io/).
