@@ -22,10 +22,10 @@ pip install -r requirements.txt
 # Datasets
 ***Note:*** *We have recollected the data for handover and food identification tasks due to the small time artifact in the first version of the data. However, new data has shown similar result as first version and all conclusions given in the paper are held.*
 
- These datasets are hosted on Google Drive. 
-Please download [raw](https://drive.google.com/file/d/1aXEXLYn-SEuIL7CvflyLTBr_YffzF15U/view?usp=sharing) (~946 MB) and/or [preprocessed](https://drive.google.com/file/d/12W2Cb2kW5Sa8x6EvwbRIx8f42cVyKjN4/view?usp=sharing) (~696 MB) data with the direct link.
+ These datasets are hosted on Dropbox. 
+Please download [raw](https://www.dropbox.com/scl/fi/nmiip0uvtucugxo0hn4u3/data_v2.zip?rlkey=yw1zm44mrwjlioveugwzne96x&dl=0) (~946 MB) and/or [preprocessed](https://www.dropbox.com/scl/fi/zakyursb1uu59o8w88825/preprocessed_data_v2.zip?rlkey=ccy5rk354p0hkw62gq1nnanu1&dl=0) (~696 MB) data with the direct link.
 
-We also provide scripts for headless fetching of the required data. For quick start, please download preprocessed data:
+<!--- We also provide scripts for headless fetching of the required data. For quick start, please download preprocessed data:
 
 ``` bash
 bash fetch_data.sh preprocess
@@ -37,7 +37,7 @@ If you want to fetch unprocessed raw data, pease run:
 
 ``` bash
 bash fetch_data.sh
-```
+``` --->
 
 The downloaded data will be unzipped under ```data/``` folder. Please refer to ```data/README``` for details of raw data.
 
